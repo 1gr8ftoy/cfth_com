@@ -1,0 +1,33 @@
+# Bootstrap
+app/bootstrap*
+
+# Symfony directories
+vendor/*
+*/logs/*
+*/cache/*
+web/uploads/*
+web/bundles/*
+web/css/compiled/*
+web/css/compiled/*
+web/js/compiled/*
+web/media/*
+bin/*
+
+# Composer binary
+composer.phar
+
+# Configuration files
+app/config/parameters.ini
+app/config/parameters.yml
+
+# Ignore phpStorm workspace
+.idea/*
+
+# System files
+.DS_Store
+
+# HTML test report
+test_report.html
+
+# Test rerun script
+/features/behat_rerun
