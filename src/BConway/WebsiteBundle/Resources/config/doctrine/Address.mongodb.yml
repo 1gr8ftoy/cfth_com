@@ -1,0 +1,13 @@
+BConway\WebsiteBundle\Document\Address:
+  type: embeddedDocument
+  fields:
+    city:
+      type: string
+    state:
+      type: string
+    streetAddress:
+      type: string
+    unit:
+      type: string
+    zip:
+      type: string

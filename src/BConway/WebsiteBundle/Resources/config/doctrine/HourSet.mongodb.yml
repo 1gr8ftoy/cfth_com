@@ -1,0 +1,7 @@
+BConway\WebsiteBundle\Document\HourSet:
+  type: embeddedDocument
+  fields:
+    open:
+      type: string
+    close:
+      type: string

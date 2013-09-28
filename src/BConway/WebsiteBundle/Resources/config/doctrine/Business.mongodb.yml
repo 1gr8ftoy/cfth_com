@@ -1,0 +1,61 @@
+BConway\WebsiteBundle\Document\Business:
+  type: document
+  db: ClosedForTheHoliday
+  collection: businesses
+  fields:
+    id:
+      id: true
+      strategy: auto
+      type: id
+    ad:
+      type: string
+    address:
+      embedded: true
+      type: one
+      targetDocument: BConway\WebsiteBundle\Document\Address
+    claimed:
+      type: boolean
+    coupons:
+      type: string
+    dateCreated:
+      type: date
+    dateModified:
+      type: date
+    hours:
+      embedded: true
+      type: one
+      targetDocument: BConway\WebsiteBundle\Document\Hours
+    name:
+      type: string
+    organization:
+      type: string
+    permanentlyClosed:
+      type: boolean
+    phone:
+      type: string
+    hours:
+      embedded: true
+      type: many
+      targetDocument: BConway\WebsiteBundle\Document\Service
+    tags:
+      type: collection
+    website:
+      type: string
+  indexes:
+    address:
+      keys:
+        address: asc
+        city: asc
+        name: asc
+        organization: asc
+        state: asc
+        unit: asc
+        zip: asc
+      options:
+        unique: true
+        dropDups: false
+        background: false
+    id:
+      keys:
+        id: asc
+  repositoryClass: BConway\WebsiteBundle\Document\BusinessRepository

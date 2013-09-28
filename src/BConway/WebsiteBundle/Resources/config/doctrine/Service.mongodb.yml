@@ -1,0 +1,11 @@
+BConway\WebsiteBundle\Document\Service:
+  type: embeddedDocument
+  fields:
+    name:
+      type: string
+    description:
+      type: string
+    hours:
+      embedded: true
+      type: one
+      targetDocument: BConway\WebsiteBundle\Document\StandardHours

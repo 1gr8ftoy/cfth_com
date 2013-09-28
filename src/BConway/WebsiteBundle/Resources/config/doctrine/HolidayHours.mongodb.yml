@@ -1,0 +1,23 @@
+BConway\WebsiteBundle\Document\HolidayHours:
+  type: embeddedDocument
+  fields:
+    newYears:
+      type: string
+    easter:
+      type: string
+    memorialDay:
+      type: string
+    independenceDay:
+      type: string
+    laborDay:
+      type: string
+    thanksgiving:
+      type: string
+    dayAfterThanksgiving:
+      type: string
+    christmasEve:
+      type: string
+    christmas:
+      type: string
+    newYearsEve:
+      type: string

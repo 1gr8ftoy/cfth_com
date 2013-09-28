@@ -1,0 +1,11 @@
+BConway\WebsiteBundle\Document\Hours:
+  type: embeddedDocument
+  fields:
+    holiday:
+      embedded: true
+      type: one
+      targetDocument: BConway\WebsiteBundle\Document\HolidayHours
+    standard:
+      embedded: true
+      type: one
+      targetDocument: BConway\WebsiteBundle\Document\StandardHours
