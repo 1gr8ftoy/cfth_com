@@ -13,5 +13,14 @@ security:
                     user:  { password: userpass, roles: [ 'ROLE_USER' ] }
                     admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
 
+    firewalls:
+        secured_area:
+            pattern:    ^/manage/
+            anonymous: ~
+            form_login:
+                login_path:  login
+                check_path:  login_check
+
+
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
