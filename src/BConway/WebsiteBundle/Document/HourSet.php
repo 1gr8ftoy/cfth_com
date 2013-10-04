@@ -15,6 +15,14 @@ class HourSet
      */
     protected $close;
 
+    public function __construct($open = null, $close = null)
+    {
+        if (!is_null($open) && !is_null($close)) {
+            $this->setOpen($open);
+            $this->setClose($close);
+        }
+    }
+
 
     /**
      * Set open
