@@ -1,0 +1,7 @@
+BConway\WebsiteBundle\Document\GeoLocation:
+  type: embeddedDocument
+  fields:
+    lat:
+      type: string
+    long:
+      type: string

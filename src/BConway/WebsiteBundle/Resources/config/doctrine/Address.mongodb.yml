@@ -3,6 +3,10 @@ BConway\WebsiteBundle\Document\Address:
   fields:
     city:
       type: string
+    geolocation:
+      embedded: true
+      type: one
+      targetDocument: BConway\WebsiteBundle\Document\GeoLocation
     state:
       type: string
     streetAddress:
