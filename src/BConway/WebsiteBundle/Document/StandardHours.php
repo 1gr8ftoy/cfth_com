@@ -3,60 +3,76 @@
 namespace BConway\WebsiteBundle\Document;
 
 class StandardHours
-{
+{    /**
+     * @var BConway\WebsiteBundle\Document\HourSet
+     */
+    protected $mon = array();
 
     /**
-     * @var BConway\WebsiteBundle\Document\HoursDay
+     * @var BConway\WebsiteBundle\Document\HourSet
      */
-    protected $mon;
+    protected $tue = array();
 
     /**
-     * @var BConway\WebsiteBundle\Document\HoursDay
+     * @var BConway\WebsiteBundle\Document\HourSet
      */
-    protected $tue;
+    protected $wed = array();
 
     /**
-     * @var BConway\WebsiteBundle\Document\HoursDay
+     * @var BConway\WebsiteBundle\Document\HourSet
      */
-    protected $wed;
+    protected $thu = array();
 
     /**
-     * @var BConway\WebsiteBundle\Document\HoursDay
+     * @var BConway\WebsiteBundle\Document\HourSet
      */
-    protected $thu;
+    protected $fri = array();
 
     /**
-     * @var BConway\WebsiteBundle\Document\HoursDay
+     * @var BConway\WebsiteBundle\Document\HourSet
      */
-    protected $fri;
+    protected $sat = array();
 
     /**
-     * @var BConway\WebsiteBundle\Document\HoursDay
+     * @var BConway\WebsiteBundle\Document\HourSet
      */
-    protected $sat;
+    protected $sun = array();
 
-    /**
-     * @var BConway\WebsiteBundle\Document\HoursDay
-     */
-    protected $sun;
-
-
-    /**
-     * Set mon
-     *
-     * @param BConway\WebsiteBundle\Document\HoursDay $mon
-     * @return self
-     */
-    public function setMon(\BConway\WebsiteBundle\Document\HoursDay $mon)
+    public function __construct()
     {
-        $this->mon = $mon;
-        return $this;
+        $this->mon = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->tue = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->wed = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->thu = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fri = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sat = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->sun = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add mon
+     *
+     * @param BConway\WebsiteBundle\Document\HourSet $mon
+     */
+    public function addMon(\BConway\WebsiteBundle\Document\HourSet $mon)
+    {
+        $this->mon[] = $mon;
+    }
+
+    /**
+     * Remove mon
+     *
+     * @param BConway\WebsiteBundle\Document\HourSet $mon
+     */
+    public function removeMon(\BConway\WebsiteBundle\Document\HourSet $mon)
+    {
+        $this->mon->removeElement($mon);
     }
 
     /**
      * Get mon
      *
-     * @return BConway\WebsiteBundle\Document\HoursDay $mon
+     * @return Doctrine\Common\Collections\Collection $mon
      */
     public function getMon()
     {
@@ -64,21 +80,29 @@ class StandardHours
     }
 
     /**
-     * Set tue
+     * Add tue
      *
-     * @param BConway\WebsiteBundle\Document\HoursDay $tue
-     * @return self
+     * @param BConway\WebsiteBundle\Document\HourSet $tue
      */
-    public function setTue(\BConway\WebsiteBundle\Document\HoursDay $tue)
+    public function addTue(\BConway\WebsiteBundle\Document\HourSet $tue)
     {
-        $this->tue = $tue;
-        return $this;
+        $this->tue[] = $tue;
+    }
+
+    /**
+     * Remove tue
+     *
+     * @param BConway\WebsiteBundle\Document\HourSet $tue
+     */
+    public function removeTue(\BConway\WebsiteBundle\Document\HourSet $tue)
+    {
+        $this->tue->removeElement($tue);
     }
 
     /**
      * Get tue
      *
-     * @return BConway\WebsiteBundle\Document\HoursDay $tue
+     * @return Doctrine\Common\Collections\Collection $tue
      */
     public function getTue()
     {
@@ -86,21 +110,29 @@ class StandardHours
     }
 
     /**
-     * Set wed
+     * Add wed
      *
-     * @param BConway\WebsiteBundle\Document\HoursDay $wed
-     * @return self
+     * @param BConway\WebsiteBundle\Document\HourSet $wed
      */
-    public function setWed(\BConway\WebsiteBundle\Document\HoursDay $wed)
+    public function addWed(\BConway\WebsiteBundle\Document\HourSet $wed)
     {
-        $this->wed = $wed;
-        return $this;
+        $this->wed[] = $wed;
+    }
+
+    /**
+     * Remove wed
+     *
+     * @param BConway\WebsiteBundle\Document\HourSet $wed
+     */
+    public function removeWed(\BConway\WebsiteBundle\Document\HourSet $wed)
+    {
+        $this->wed->removeElement($wed);
     }
 
     /**
      * Get wed
      *
-     * @return BConway\WebsiteBundle\Document\HoursDay $wed
+     * @return Doctrine\Common\Collections\Collection $wed
      */
     public function getWed()
     {
@@ -108,21 +140,29 @@ class StandardHours
     }
 
     /**
-     * Set thu
+     * Add thu
      *
-     * @param BConway\WebsiteBundle\Document\HoursDay $thu
-     * @return self
+     * @param BConway\WebsiteBundle\Document\HourSet $thu
      */
-    public function setThu(\BConway\WebsiteBundle\Document\HoursDay $thu)
+    public function addThu(\BConway\WebsiteBundle\Document\HourSet $thu)
     {
-        $this->thu = $thu;
-        return $this;
+        $this->thu[] = $thu;
+    }
+
+    /**
+     * Remove thu
+     *
+     * @param BConway\WebsiteBundle\Document\HourSet $thu
+     */
+    public function removeThu(\BConway\WebsiteBundle\Document\HourSet $thu)
+    {
+        $this->thu->removeElement($thu);
     }
 
     /**
      * Get thu
      *
-     * @return BConway\WebsiteBundle\Document\HoursDay $thu
+     * @return Doctrine\Common\Collections\Collection $thu
      */
     public function getThu()
     {
@@ -130,21 +170,29 @@ class StandardHours
     }
 
     /**
-     * Set fri
+     * Add fri
      *
-     * @param BConway\WebsiteBundle\Document\HoursDay $fri
-     * @return self
+     * @param BConway\WebsiteBundle\Document\HourSet $fri
      */
-    public function setFri(\BConway\WebsiteBundle\Document\HoursDay $fri)
+    public function addFri(\BConway\WebsiteBundle\Document\HourSet $fri)
     {
-        $this->fri = $fri;
-        return $this;
+        $this->fri[] = $fri;
+    }
+
+    /**
+     * Remove fri
+     *
+     * @param BConway\WebsiteBundle\Document\HourSet $fri
+     */
+    public function removeFri(\BConway\WebsiteBundle\Document\HourSet $fri)
+    {
+        $this->fri->removeElement($fri);
     }
 
     /**
      * Get fri
      *
-     * @return BConway\WebsiteBundle\Document\HoursDay $fri
+     * @return Doctrine\Common\Collections\Collection $fri
      */
     public function getFri()
     {
@@ -152,21 +200,29 @@ class StandardHours
     }
 
     /**
-     * Set sat
+     * Add sat
      *
-     * @param BConway\WebsiteBundle\Document\HoursDay $sat
-     * @return self
+     * @param BConway\WebsiteBundle\Document\HourSet $sat
      */
-    public function setSat(\BConway\WebsiteBundle\Document\HoursDay $sat)
+    public function addSat(\BConway\WebsiteBundle\Document\HourSet $sat)
     {
-        $this->sat = $sat;
-        return $this;
+        $this->sat[] = $sat;
+    }
+
+    /**
+     * Remove sat
+     *
+     * @param BConway\WebsiteBundle\Document\HourSet $sat
+     */
+    public function removeSat(\BConway\WebsiteBundle\Document\HourSet $sat)
+    {
+        $this->sat->removeElement($sat);
     }
 
     /**
      * Get sat
      *
-     * @return BConway\WebsiteBundle\Document\HoursDay $sat
+     * @return Doctrine\Common\Collections\Collection $sat
      */
     public function getSat()
     {
@@ -174,21 +230,29 @@ class StandardHours
     }
 
     /**
-     * Set sun
+     * Add sun
      *
-     * @param BConway\WebsiteBundle\Document\HoursDay $sun
-     * @return self
+     * @param BConway\WebsiteBundle\Document\HourSet $sun
      */
-    public function setSun(\BConway\WebsiteBundle\Document\HoursDay $sun)
+    public function addSun(\BConway\WebsiteBundle\Document\HourSet $sun)
     {
-        $this->sun = $sun;
-        return $this;
+        $this->sun[] = $sun;
+    }
+
+    /**
+     * Remove sun
+     *
+     * @param BConway\WebsiteBundle\Document\HourSet $sun
+     */
+    public function removeSun(\BConway\WebsiteBundle\Document\HourSet $sun)
+    {
+        $this->sun->removeElement($sun);
     }
 
     /**
      * Get sun
      *
-     * @return BConway\WebsiteBundle\Document\HoursDay $sun
+     * @return Doctrine\Common\Collections\Collection $sun
      */
     public function getSun()
     {

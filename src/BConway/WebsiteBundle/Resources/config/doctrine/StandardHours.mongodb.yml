@@ -1,31 +1,31 @@
 BConway\WebsiteBundle\Document\StandardHours:
-  type: embeddedDocument
-  fields:
-    mon:
-      embedded: true
-      type: one
-      targetDocument: BConway\WebsiteBundle\Document\HoursDay
-    tue:
-      embedded: true
-      type: one
-      targetDocument: BConway\WebsiteBundle\Document\HoursDay
-    wed:
-      embedded: true
-      type: one
-      targetDocument: BConway\WebsiteBundle\Document\HoursDay
-    thu:
-      embedded: true
-      type: one
-      targetDocument: BConway\WebsiteBundle\Document\HoursDay
-    fri:
-      embedded: true
-      type: one
-      targetDocument: BConway\WebsiteBundle\Document\HoursDay
-    sat:
-      embedded: true
-      type: one
-      targetDocument: BConway\WebsiteBundle\Document\HoursDay
-    sun:
-      embedded: true
-      type: one
-      targetDocument: BConway\WebsiteBundle\Document\HoursDay
+    type: embeddedDocument
+    fields:
+        mon:
+            embedded: true
+            type: many
+            targetDocument: BConway\WebsiteBundle\Document\HourSet
+        tue:
+            embedded: true
+            type: many
+            targetDocument: BConway\WebsiteBundle\Document\HourSet
+        wed:
+            embedded: true
+            type: many
+            targetDocument: BConway\WebsiteBundle\Document\HourSet
+        thu:
+            embedded: true
+            type: many
+            targetDocument: BConway\WebsiteBundle\Document\HourSet
+        fri:
+            embedded: true
+            type: many
+            targetDocument: BConway\WebsiteBundle\Document\HourSet
+        sat:
+            embedded: true
+            type: many
+            targetDocument: BConway\WebsiteBundle\Document\HourSet
+        sun:
+            embedded: true
+            type: many
+            targetDocument: BConway\WebsiteBundle\Document\HourSet
