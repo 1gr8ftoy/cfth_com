@@ -1,0 +1,19 @@
+{% extends '::base-details.html.twig' %}
+
+{% block body_address %}
+    <h3>{{ business.name }}</h3>
+    <p>{{ business.address.streetAddress }}</p>
+    {% if business.address.unit is defined and business.address.unit is not empty %}
+        <p>{{ business.address.unit }}</p>
+    {% endif %}
+    <p>{{ business.address.city }}, {{ business.address.state }} {{ business.address.zip }}</p>
+    <p>&nbsp;</p>
+    <p><a href="http://maps.google.com/maps?daddr={{ (business.address.streetAddress ~ ', ' ~ business.address.city ~ ', ' ~ business.address.state ~ ' ' ~ business.address.zip) | url_encode }}" target="_blank">Get directions</a></p>
+    {% if business.phone is defined and business.phone is not empty and (business.phone | digitize) | length >= 9 %}
+        <p>&nbsp;</p>
+        <p><a href="tel:{{ business.phone | digitize }}">{{ business.phone }}</a></p>
+    {% endif %}
+    {#{% for hours in business.hours.standard.mon %}#}
+        {#Mon {{ hours.open }} - {{ hours.close }}#}
+    {#{% endfor %}#}
+{% endblock %}

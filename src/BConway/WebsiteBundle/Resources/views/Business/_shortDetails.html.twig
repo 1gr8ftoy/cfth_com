@@ -1,0 +1,20 @@
+{% if currentState is not defined or currentState != business.address.state %}
+    <div style="width: 80%">
+        <h2 style="display: block; border-bottom: 1px solid #000;padding-bottom: 0px; margin-bottom: .5em;">{{ business.address.state | fullStateName }}</h2>
+    </div>
+{% endif %}
+<p>
+    <a href="{{ path('b_conway_website_business_details', {'id': business.id | url_encode}) }}">{{ business.name }}</a>
+</p>
+{% if business.phone is defined and business.phone is not empty and (business.phone | digitize) | length >= 9 %}
+    <p><a href="tel:{{ business.phone | digitize }}">{{ business.phone }}</a></p>
+{% endif %}
+<p>
+    {{ business.address.streetAddress }},
+    {% if business.address.unit is defined and business.address.unit is not empty %}
+        {{ business.address.unit }}
+    {% endif %}
+    {{ business.address.city }},
+    {{ business.address.state }},
+    {{ business.address.zip }}
+</p>

@@ -1,0 +1,89 @@
+{% extends '::base-home.html.twig' %}
+{% block body_details %}
+    {% if resultType == 'String' %}
+        {% if browseBy == 'name' %}
+            {% for business in items %}
+                <p>
+                    <a href="{{ path('b_conway_website_business_browse_name_with_organization', {'organization': business | url_encode}) }}">{{ business }}</a>
+                </p>
+            {% endfor %}
+        {% elseif browseBy == 'location' %}
+            {% if state is defined and state is not empty %}
+                {% for business in items %}
+                    <p>
+                        <a href="{{ path('b_conway_website_business_browse_name_with_organization_state', {'organization': business | url_encode, 'state': state | url_encode}) }}">{{ business }}</a>
+                    </p>
+                {% endfor %}
+            {% else %}
+                {% for state in items %}
+                    <p>
+                        <a href="{{ path('b_conway_website_business_browse_location_with_state', {'state': state | url_encode}) }}">{{ state }}</a>
+                    </p>
+                {% endfor %}
+            {% endif %}
+        {% elseif browseBy == 'category' %}
+            {% for category in items %}
+                <p>
+                    <a href="{{ path('b_conway_website_business_browse_with_category', {'category': category | url_encode}) }}">{{ category }}</a>
+                </p>
+            {% endfor %}
+        {% endif %}
+    {% elseif resultType == 'Object' %}
+        {% if browseBy == 'name' %}
+            {% if app.request.attributes.get("state") is not defined or app.request.attributes.get("state") is empty %}
+                {% set stateList = [] %}
+                {% for business in items %}
+                    {% if business.address.state not in stateList %}
+                        {% set stateList = stateList|merge([business.address.state]) %}
+                    {% endif %}
+                {% endfor %}
+                <select>
+                    <option value="" default selected>Narrow by state</option>
+                    {% for state in stateList %}
+                        <option value="{{ state }}">{{ state }}</option>
+                    {% endfor %}
+                </select>
+            {% else %}
+                {% set cityList = [] %}
+                {% for business in items %}
+                    {% if business.address.city not in cityList %}
+                        {% set cityList = cityList|merge([business.address.city]) %}
+                    {% endif %}
+                {% endfor %}
+                <select>
+                    <option value="" default selected>Narrow by city</option>
+                    {% for city in cityList %}
+                        <option value="{{ city }}">{{ city }}</option>
+                    {% endfor %}
+                </select>
+            {% endif %}
+            {% for business in items %}
+                {% if loop.index > 1 %}
+                    <p>&nbsp;</p><p>&nbsp;</p>
+                {% endif %}
+                {% include 'BConwayWebsiteBundle:Business:_shortDetails.html.twig' %}
+                {% set currentState = business.address.state %}
+            {% endfor %}
+        {% elseif browseBy == 'location' %}
+            {% if state is defined and state is not empty %}
+                {% for business in items %}
+                    <p>
+                        <a href="{{ path('b_conway_website_business_browse_name_with_organization_state', {'organization': business.name | url_encode, 'state': state | url_encode}) }}">{{ business.name }}</a>
+                    </p>
+                {% endfor %}
+            {% else %}
+                {% for state in items %}
+                    <p>
+                        <a href="{{ path('b_conway_website_business_browse_location_with_state', {'state': state | url_encode}) }}">{{ state }}</a>
+                    </p>
+                {% endfor %}
+            {% endif %}
+        {% elseif browseBy == 'category' %}
+            {% for category in items %}
+                <p>
+                    <a href="{{ path('b_conway_website_business_browse_with_category', {'category': category | url_encode}) }}">{{ category }}</a>
+                </p>
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endblock %}
