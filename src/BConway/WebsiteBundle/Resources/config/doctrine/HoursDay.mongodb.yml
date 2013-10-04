@@ -1,7 +1,0 @@
-BConway\WebsiteBundle\Document\HoursDay:
-  type: embeddedDocument
-  fields:
-    hours:
-      embedded: true
-      type: many
-      targetDocument: BConway\WebsiteBundle\Document\HourSet
