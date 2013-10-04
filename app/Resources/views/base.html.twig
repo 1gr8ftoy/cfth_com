@@ -1,13 +1,62 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8" />
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        {% stylesheets
+                'css/application.scss'
+                'css/cupertino/jquery-ui-1.10.3.custom.min.css'
+                output='css/compiled/main.css'
+                filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+        {% endstylesheets %}
+    {% endblock %}
+    {% block javascripts %}
+        {% javascripts
+                'js/jquery-1.10.2.min.js'
+                'js/jquery-ui-1.10.3.custom.min.js'
+                'js/*.js'
+                output='js/compiled/main.js' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body>
+<div id="container" class="clearfix">
+    <div id="navigation" class="clearfix">
+        <div id="buttons-and-icon" class="clearfix">
+            <div id="large-icon-container" class="clearfix">
+                <img id="large-icon" src="{{ asset('/images/Sticky-Note.png') }}" class="image">
+            </div>
+            <p id="browse-link">
+                <a href="{{ path('b_conway_website_business_browse_name') }}">Browse</a>
+            </p>
+            <p id="search-link">
+                Search
+            </p>
+            <p id="submit-link">
+                Submit
+            </p>
+            <p id="request-link">
+                Request
+            </p>
+            <p id="contact-link">
+                Contact Us
+            </p>
+        </div>
+    </div>
+    <div id="mobile-icon-and-search" class="clearfix">
+        <div id="mobile-icon-container" class="clearfix">
+            <img id="mobile-icon" src="{{ asset('/images/Sticky-Note.png') }}" class="image">
+        </div>
+        <div id="search" class="clearfix">
+        </div>
+    </div>
+    <div id="content" class="clearfix">
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+    </div>
+</div>
+</body>
 </html>

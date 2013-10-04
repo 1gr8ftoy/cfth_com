@@ -1,0 +1,26 @@
+{% extends '::base.html.twig' %}
+{% block body %}
+    {% if resultType == 'String' %}
+        <div id="browse-by" class="clearfix">
+            Browse by:
+            {% if browseBy == 'name' %}
+                name |
+            {% else %}
+                <a href="{{ path('b_conway_website_business_browse_name') }}">name</a> |
+            {% endif %}
+            {% if browseBy == 'location' %}
+                location |
+            {% else %}
+                <a href="{{ path('b_conway_website_business_browse_location') }}">location</a> |
+            {% endif %}
+            {% if browseBy == 'category' %}
+                category
+            {% else %}
+                <a href="{{ path('b_conway_website_business_browse_category') }}">category</a>
+            {% endif %}
+        </div>
+    {% endif %}
+    <div id="details" class="clearfix">
+        {% block body_details %}{% endblock %}
+    </div>
+{% endblock %}
