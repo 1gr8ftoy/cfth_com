@@ -15,3 +15,6 @@ parameters:
     secret:                ThisTokenIsNotSoSecretChangeIt
 
     mongodb_database_name: ClosedForTheHoliday
+
+    assetic.ruby.bin:               ~
+    assetic.filter.compass.bin:     ~
