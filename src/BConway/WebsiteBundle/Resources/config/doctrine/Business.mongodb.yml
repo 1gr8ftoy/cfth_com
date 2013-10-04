@@ -33,7 +33,7 @@ BConway\WebsiteBundle\Document\Business:
       type: boolean
     phone:
       type: string
-    hours:
+    services:
       embedded: true
       type: many
       targetDocument: BConway\WebsiteBundle\Document\Service
@@ -44,13 +44,13 @@ BConway\WebsiteBundle\Document\Business:
   indexes:
     address:
       keys:
-        address: asc
-        city: asc
+        address.streetAddress: asc
+        address.city: asc
+        address.state: asc
+        address.unit: asc
+        address.zip: asc
         name: asc
         organization: asc
-        state: asc
-        unit: asc
-        zip: asc
       options:
         unique: true
         dropDups: false

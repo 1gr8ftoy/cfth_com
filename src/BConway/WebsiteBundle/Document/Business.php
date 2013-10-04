@@ -3,7 +3,6 @@ namespace BConway\WebsiteBundle\Document;
 
 class Business
 {
-
     /**
      * @var $id
      */
@@ -70,13 +69,18 @@ class Business
     protected $address;
 
     /**
+     * @var BConway\WebsiteBundle\Document\Hours
+     */
+    protected $hours;
+
+    /**
      * @var BConway\WebsiteBundle\Document\Service
      */
-    protected $hours = array();
+    protected $services = array();
 
     public function __construct()
     {
-        $this->hours = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->services = new \Doctrine\Common\Collections\ArrayCollection();
     }
     
     /**
@@ -222,29 +226,21 @@ class Business
     }
 
     /**
-     * Add hour
+     * Set hours
      *
-     * @param BConway\WebsiteBundle\Document\Service $hour
+     * @param BConway\WebsiteBundle\Document\Hours $hours
+     * @return self
      */
-    public function addHour(\BConway\WebsiteBundle\Document\Service $hour)
+    public function setHours(\BConway\WebsiteBundle\Document\Hours $hours)
     {
-        $this->hours[] = $hour;
-    }
-
-    /**
-     * Remove hour
-     *
-     * @param BConway\WebsiteBundle\Document\Service $hour
-     */
-    public function removeHour(\BConway\WebsiteBundle\Document\Service $hour)
-    {
-        $this->hours->removeElement($hour);
+        $this->hours = $hours;
+        return $this;
     }
 
     /**
      * Get hours
      *
-     * @return Doctrine\Common\Collections\Collection $hours
+     * @return BConway\WebsiteBundle\Document\Hours $hours
      */
     public function getHours()
     {
@@ -337,6 +333,36 @@ class Business
     public function getPhone()
     {
         return $this->phone;
+    }
+
+    /**
+     * Add service
+     *
+     * @param BConway\WebsiteBundle\Document\Service $service
+     */
+    public function addService(\BConway\WebsiteBundle\Document\Service $service)
+    {
+        $this->services[] = $service;
+    }
+
+    /**
+     * Remove service
+     *
+     * @param BConway\WebsiteBundle\Document\Service $service
+     */
+    public function removeService(\BConway\WebsiteBundle\Document\Service $service)
+    {
+        $this->services->removeElement($service);
+    }
+
+    /**
+     * Get services
+     *
+     * @return Doctrine\Common\Collections\Collection $services
+     */
+    public function getServices()
+    {
+        return $this->services;
     }
 
     /**
