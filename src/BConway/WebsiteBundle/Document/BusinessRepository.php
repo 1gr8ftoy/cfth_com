@@ -2,6 +2,7 @@
 
 namespace BConway\WebsiteBundle\Document;
 
+use Doctrine\Common\Util\Debug;
 use Doctrine\ODM\MongoDB\DocumentRepository;
 
 /**
@@ -12,4 +13,90 @@ use Doctrine\ODM\MongoDB\DocumentRepository;
  */
 class BusinessRepository extends DocumentRepository
 {
+    public function findBusinesses($options = array())
+    {
+        $organization = array_key_exists('organization', $options) ? urldecode($options['organization']) : null;
+        $state = array_key_exists('state', $options) ? urldecode($options['state']) : null;
+        $city = array_key_exists('city', $options) ? urldecode($options['city']) : null;
+
+        $dm = $this->getDocumentManager();
+
+        if (!is_null($organization) && $organization) {
+            // Get business name from all businesses (distinct)
+            $businesses = $dm->createQueryBuilder('BConwayWebsiteBundle:Business');
+
+            if (!is_null($organization) && strlen($organization) > 0) {
+                $businesses = $businesses->addOr($businesses->expr()->field('organization')->equals($organization));
+                $businesses = $businesses->addOr($businesses->expr()->field('name')->equals($organization));
+            }
+
+            if (!is_null($state) && strlen($state) == 2) {
+                $businesses = $businesses->field('address.state')->equals($state);
+            }
+
+            if (!is_null($state) && strlen($state) == 2 && !is_null($city) && strlen($city) > 0) {
+                $businesses = $businesses->field('address.city')->equals($city);
+            }
+
+            $businesses = $businesses
+                ->sort('address.state')
+                ->sort('address.city')
+                ->sort('name')
+                ->sort('address.streetAddress')
+                ->sort('address.unit')
+                ->getQuery();
+
+            return $businesses;
+        } else {
+            // Get organization name from all businesses (distinct)
+            $qbOrg = $dm->createQueryBuilder('BConwayWebsiteBundle:Business');
+
+            if (!is_null($state) && strlen($state) == 2) {
+                $qbOrg = $qbOrg->field('address.state')->equals($state);
+            }
+
+            if (!is_null($state) && strlen($state) == 2 && !is_null($city) && strlen($city) > 0) {
+                $qbOrg = $qbOrg->field('address.city')->equals($city);
+            }
+
+            $qbOrg = $qbOrg
+                ->distinct('organization')
+                ->getQuery()
+                ->toArray();
+
+            // Get business name from all businesses (distinct)
+            $qbName = $dm->createQueryBuilder('BConwayWebsiteBundle:Business');
+
+            if (!is_null($state) && strlen($state) == 2) {
+                $qbName = $qbName->field('address.state')->equals($state);
+            }
+
+            if (!is_null($state) && strlen($state) == 2 && !is_null($city) && strlen($city) > 0) {
+                $qbName = $qbName->field('address.city')->equals($city);
+            }
+
+            $qbName = $qbName
+                ->field('organization')->equals('')
+                ->field('organization')->equals(null)
+                ->distinct('name')
+                ->getQuery()
+                ->toArray();
+
+            // Create new array from results of both queries
+            $businesses = array_merge($qbOrg, $qbName);
+
+            // Filter out any null or empty values
+            $businesses = array_filter($businesses, function($item) {
+                return (!is_null($item) && strlen($item) > 0);
+            });
+
+            // Filter out any duplicates
+            array_unique($businesses);
+
+            // Sort array case-insensitive
+            sort($businesses, SORT_STRING | SORT_FLAG_CASE);
+
+            return $businesses;
+        }
+    }
 }
