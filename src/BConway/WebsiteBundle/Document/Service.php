@@ -65,6 +65,11 @@ class Service
         return $this->description;
     }
 
+    public function __construct($name = null)
+    {
+        $this->setName($name);
+    }
+
     /**
      * Set hours
      *
