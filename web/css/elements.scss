@@ -1,0 +1,19 @@
+a {
+  text-decoration: none;
+
+  &:link, &:visited {
+    color: rgb(100, 99, 65);
+  }
+
+  &:hover {
+    color: darken(rgb(100, 99, 65), 20%);
+  }
+
+  &:active {
+    color: shade(rgb(100, 99, 65), 20%);
+  }
+}
+
+select option[default] {
+  color: #333;
+}
