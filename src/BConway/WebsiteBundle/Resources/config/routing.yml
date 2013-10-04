@@ -1,3 +1,43 @@
+b_conway_website_business_browse:
+    pattern:  /
+    defaults: { _controller: BConwayWebsiteBundle:Business:browse }
+b_conway_website_business_browse_name_with_organization_state_city:
+    pattern:  /browse/name/{organization}/{state}/{city}
+    defaults: { _controller: BConwayWebsiteBundle:Business:browseName }
+b_conway_website_business_browse_name_with_organization_state:
+    pattern:  /browse/name/{organization}/{state}
+    defaults: { _controller: BConwayWebsiteBundle:Business:browseName }
+b_conway_website_business_browse_name_with_organization:
+    pattern:  /browse/name/{organization}
+    defaults: { _controller: BConwayWebsiteBundle:Business:browseName }
+b_conway_website_business_browse_name:
+    pattern:  /browse/name{trailingSlash}
+    defaults: { _controller: BConwayWebsiteBundle:Business:browseName, trailingSlash : "/" }
+    requirements: { trailingSlash : "[/]{0,1}" }
+b_conway_website_business_browse_location_with_state:
+    pattern:  /browse/location/{state}
+    defaults: { _controller: BConwayWebsiteBundle:Business:browseLocation }
+b_conway_website_business_browse_location:
+    pattern:  /browse/location{trailingSlash}
+    defaults: { _controller: BConwayWebsiteBundle:Business:browseLocation, trailingSlash : "/" }
+    requirements: { trailingSlash : "[/]{0,1}" }
+b_conway_website_business_browse_category:
+    pattern:  /browse/category{trailingSlash}
+    defaults: { _controller: BConwayWebsiteBundle:Business:browseCategory, trailingSlash : "/" }
+    requirements: { trailingSlash : "[/]{0,1}" }
+b_conway_website_business_browse_category_with_category:
+    pattern:  /browse/category/{category}
+    defaults: { _controller: BConwayWebsiteBundle:Business:browseCategory }
+b_conway_website_business_browse_default:
+    pattern:  /browse/{browseBy}{trailingSlash}
+    defaults: { _controller: BConwayWebsiteBundle:Business:browseName, browseBy: name }
+    requirements: { trailingSlash : "[/]{0,1}" }
+b_conway_website_business_details:
+    pattern:  /details/{id}
+    defaults: { _controller: BConwayWebsiteBundle:Business:details, id: "" }
+b_conway_website_business_details_depracated_url:
+    pattern:  /details/
+    defaults: { _controller: BConwayWebsiteBundle:Business:details }
 b_conway_website_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: BConwayWebsiteBundle:Default:index }
