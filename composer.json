@@ -12,7 +12,7 @@
         "doctrine/orm": ">=2.2.3,<2.4-dev",
         "doctrine/doctrine-bundle": "1.2.*",
         "doctrine/mongodb-odm": "1.0.*@dev",
-        "doctrine/mongodb-odm-bundle": "3.0.*@dev",
+        "doctrine/mongodb-odm-bundle": "dev-3.0-ResolveTargetDocumentListener",
         "twig/extensions": "1.0.*",
         "symfony/assetic-bundle": "2.3.*",
         "symfony/swiftmailer-bundle": "2.3.*",
