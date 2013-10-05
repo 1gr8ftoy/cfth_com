@@ -18,6 +18,8 @@ class BusinessRepository extends DocumentRepository
         $organization = array_key_exists('organization', $options) ? urldecode($options['organization']) : null;
         $state = array_key_exists('state', $options) ? urldecode($options['state']) : null;
         $city = array_key_exists('city', $options) ? urldecode($options['city']) : null;
+        $page = array_key_exists('page', $options) ? urldecode($options['page']) : 1;
+        $pageSize = array_key_exists('pageSize', $options) ? urldecode($options['pageSize']) : 100;
 
         $dm = $this->getDocumentManager();
 
@@ -37,14 +39,24 @@ class BusinessRepository extends DocumentRepository
             if (!is_null($state) && strlen($state) == 2 && !is_null($city) && strlen($city) > 0) {
                 $businesses = $businesses->field('address.city')->equals($city);
             }
+            $results = array(
+                'type' => 'Object'
+            );
 
-            $businesses = $businesses
+            // Calculate data used for pagination
+            $results['totalCount']  = $businesses->getQuery()->count();
+            $results['totalPages']  = ceil($results['totalCount'] / $pageSize);
+
+            $results['businesses'] = $businesses
                 ->sort('address.state')
                 ->sort('address.city')
                 ->sort('name')
                 ->sort('address.streetAddress')
                 ->sort('address.unit')
-                ->getQuery();
+                ->limit($pageSize)
+                ->skip(($page - 1) * $pageSize)
+                ->getQuery()
+                ->toArray();
 
             return $businesses;
         } else {
@@ -96,7 +108,19 @@ class BusinessRepository extends DocumentRepository
             // Sort array case-insensitive
             sort($businesses, SORT_STRING | SORT_FLAG_CASE);
 
-            return $businesses;
+            // Apply pagination
+            $results = array(
+                'type' => 'String'
+            );
+
+            // Calculate data used for pagination
+            $results['totalCount']  = count($businesses);
+            $results['totalPages']  = ceil(count($businesses) / $pageSize);
+
+            //Strip out all results except the ones on the current page
+            $results['businesses'] = array_slice($businesses, ($page - 1) * $pageSize, $pageSize);
+
+            return $results;
         }
     }
 }

@@ -44,12 +44,15 @@ class BusinessController extends Controller
         }
 
         $dm = $this->get('doctrine_mongodb')->getManager();
+        // Setup pagination
 
         // Get organization name from all businesses (distinct)
 //        $organizations = $dm->createQueryBuilder('BConwayWebsiteBundle:Business')
 //            ->distinct('organization')
 //            ->getQuery()
 //            ->toArray();
+        // Get page from query variable, if it exists
+        $page = $this->getRequest()->query->get('page');
 
         // Get business name from all businesses (distinct)
 //        $names = $dm->createQueryBuilder('BConwayWebsiteBundle:Business')
@@ -71,10 +74,22 @@ class BusinessController extends Controller
 
         // Filter out any duplicates
 //        array_unique($businesses);
+        // Get page from query variable, if it exists
+        $pageSize = $this->getRequest()->query->get('pageSize');
 
         // Sort array case-insensitive
 //        sort($businesses, SORT_STRING | SORT_FLAG_CASE);
+        // Set default current page
+        if (is_null($page) || !is_numeric($page)) {
+            $page = 1;
+        }
 
+        // Show 100 posts per page by default
+        if (is_null($pageSize) || !is_numeric($pageSize)) {
+            $pageSize = 100;
+        }
+
+        // end - Setup pagination
 
 
         $businesses = $dm->getRepository('BConwayWebsiteBundle:Business')
@@ -82,6 +97,8 @@ class BusinessController extends Controller
                 'organization'    => $organization,
                 'state'           => $state,
                 'city'            => $city,
+                'pageSize'        => $pageSize,
+                'page'            => $page,
             ));
 
         // Render template
@@ -92,6 +109,10 @@ class BusinessController extends Controller
             'organization' => $organization,
             'state' => $state,
             'city' => $city,
+            'currentPage'      => $page,
+            'totalPages'       => $results['totalPages'],
+            'totalItems'       => $results['totalCount'],
+            'pageSize'         => $pageSize,
         ));
     }
 
