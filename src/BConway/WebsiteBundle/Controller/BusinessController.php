@@ -144,14 +144,13 @@ class BusinessController extends Controller
 
         // Render template
         return $this->render('BConwayWebsiteBundle:Business:browse.html.twig', array(
-            'items'    => $businesses,
-            'resultType' => (is_null($organization) || strlen($organization) == 0) ? 'String' : 'Object',
-            'browseBy' => 'name',
-            'organization' => $organization,
-            'state' => $state,
-            'city' => $city,
             'items'            => $results['businesses'],
+            'resultType'       => isset($results['type']) ? $results['type'] : null,
             'filterForm'       => isset($filterForm) ? $filterForm->createView() : null,
+            'browseBy'         => 'name',
+            'organization'     => $organization,
+            'state'            => $state,
+            'city'             => $city,
             'currentPage'      => $page,
             'totalPages'       => $results['totalPages'],
             'totalItems'       => $results['totalCount'],
