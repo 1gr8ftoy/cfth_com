@@ -3,11 +3,7 @@
 namespace BConway\WebsiteBundle\Controller;
 
 use Doctrine\Common\Util\Debug;
-use Doctrine\ODM\MongoDB\Mapping\Annotations\ObjectId;
-use Doctrine\ODM\MongoDB\Types\ObjectIdType;
-use MongoId;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\ClassLoader\DebugUniversalClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 
 class BusinessController extends Controller
@@ -44,42 +40,14 @@ class BusinessController extends Controller
             return $this->redirect($this->generateUrl('b_conway_website_business_browse_name_with_organization', $query_params));
         }
 
-        $dm = $this->get('doctrine_mongodb')->getManager();
         // Setup pagination
 
-        // Get organization name from all businesses (distinct)
-//        $organizations = $dm->createQueryBuilder('BConwayWebsiteBundle:Business')
-//            ->distinct('organization')
-//            ->getQuery()
-//            ->toArray();
         // Get page from query variable, if it exists
         $page = $this->getRequest()->query->get('page');
 
-        // Get business name from all businesses (distinct)
-//        $names = $dm->createQueryBuilder('BConwayWebsiteBundle:Business')
-//            ->field('organization')->equals('')
-//            ->field('organization')->equals(null)
-//            ->distinct('name')
-//            ->getQuery()
-//            ->toArray();
-//
-//        Debug::dump($names);
-
-        // Create new array from results of both queries
-//        $businesses = array_merge($organizations, $names);
-
-        // Filter out any null or empty values
-//        $businesses = array_filter($businesses, function($item) {
-//            return (!is_null($item) && strlen($item) > 0);
-//        });
-
-        // Filter out any duplicates
-//        array_unique($businesses);
         // Get page from query variable, if it exists
         $pageSize = $this->getRequest()->query->get('pageSize');
 
-        // Sort array case-insensitive
-//        sort($businesses, SORT_STRING | SORT_FLAG_CASE);
         // Set default current page
         if (is_null($page) || !is_numeric($page)) {
             $page = 1;
@@ -95,7 +63,6 @@ class BusinessController extends Controller
         /* @var \Doctrine\ODM\MongoDB\DocumentManager $dm */
         $dm = $this->get('doctrine_mongodb')->getManager();
 
-        $businesses = $dm->getRepository('BConwayWebsiteBundle:Business')
         $results = $dm->getRepository('BConwayWebsiteBundle:Business')
             ->findBusinesses(array(
                 'organization'    => $organization,
@@ -268,8 +235,6 @@ class BusinessController extends Controller
             // Sort array case-insensitive
             $filteredResults = sort($businesses, SORT_STRING | SORT_FLAG_CASE);
         }
-
-        Debug::dump($filteredResults->count());
 
         // Render template
         return $this->render('BConwayWebsiteBundle:Business:browse.html.twig', array(
