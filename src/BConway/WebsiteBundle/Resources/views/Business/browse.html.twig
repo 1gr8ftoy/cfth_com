@@ -30,32 +30,19 @@
         {% endif %}
     {% elseif resultType == 'Object' %}
         {% if browseBy == 'name' %}
-            {% if app.request.attributes.get("state") is not defined or app.request.attributes.get("state") is empty %}
-                {% set stateList = [] %}
-                {% for business in items %}
-                    {% if business.address.state not in stateList %}
-                        {% set stateList = stateList|merge([business.address.state]) %}
-                    {% endif %}
-                {% endfor %}
-                <select>
-                    <option value="" default selected>Narrow by state</option>
-                    {% for state in stateList %}
-                        <option value="{{ state }}">{{ state }}</option>
-                    {% endfor %}
-                </select>
-            {% else %}
-                {% set cityList = [] %}
-                {% for business in items %}
-                    {% if business.address.city not in cityList %}
-                        {% set cityList = cityList|merge([business.address.city]) %}
-                    {% endif %}
-                {% endfor %}
-                <select>
-                    <option value="" default selected>Narrow by city</option>
-                    {% for city in cityList %}
-                        <option value="{{ city }}">{{ city }}</option>
-                    {% endfor %}
-                </select>
+            {% if filterForm is defined %}
+                {% if filterForm.filterByState is defined %}
+                    {{ form_start(filterForm) }}
+                    {{ form_widget(filterForm.states) }}
+                    {{ form_widget(filterForm.filterByState) }}
+                    {{ form_end(filterForm) }}
+                {% elseif filterForm.filterByCity is defined %}
+                    {{ form_start(filterForm) }}
+                    {{ form_widget(filterForm.cities) }}
+                    {{ form_widget(filterForm.filterByCity) }}
+                    <a href="{{ path('b_conway_website_business_browse_name_with_organization', {'organization': (app.request.attributes.get('_route_params')).organization}) }}" style="font-size: 0.8em;">[Clear state filter]</a>
+                    {{ form_end(filterForm) }}
+                {% endif %}
             {% endif %}
             {% for business in items %}
                 {% if loop.index > 1 %}

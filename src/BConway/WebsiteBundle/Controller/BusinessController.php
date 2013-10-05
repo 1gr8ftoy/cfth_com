@@ -8,10 +8,11 @@ use Doctrine\ODM\MongoDB\Types\ObjectIdType;
 use MongoId;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\ClassLoader\DebugUniversalClassLoader;
+use Symfony\Component\HttpFoundation\Request;
 
 class BusinessController extends Controller
 {
-    public function browseNameAction($browseBy = null, $organization = null, $state = null, $city = null)
+    public function browseNameAction(Request $request, $browseBy = null, $organization = null, $state = null, $city = null)
     {
         // Get all GET query parameters
         $query_params = $this->getRequest()->query->all();
@@ -91,8 +92,11 @@ class BusinessController extends Controller
 
         // end - Setup pagination
 
+        /* @var \Doctrine\ODM\MongoDB\DocumentManager $dm */
+        $dm = $this->get('doctrine_mongodb')->getManager();
 
         $businesses = $dm->getRepository('BConwayWebsiteBundle:Business')
+        $results = $dm->getRepository('BConwayWebsiteBundle:Business')
             ->findBusinesses(array(
                 'organization'    => $organization,
                 'state'           => $state,
@@ -100,6 +104,76 @@ class BusinessController extends Controller
                 'pageSize'        => $pageSize,
                 'page'            => $page,
             ));
+
+        if (
+                (isset($results['states']) && count($results['states']) > 0)
+                || (isset($results['cities']) && count($results['cities']) > 0)
+        ){
+            $filterForm = $this->createFormBuilder();
+
+            if (isset($results['states']) && count($results['states']) > 0) {
+                $stateChoices = array(null => 'Narrow by state');
+                foreach($results['states'] as $state) {
+                    $stateChoices[$state] = $state;
+                }
+                $filterForm
+                    ->setAction($this->generateUrl('b_conway_website_business_browse_name_with_organization', array(
+                        'organization' => $organization,
+                    )))
+                    ->add('states', 'choice', array(
+                        'choices'  => $stateChoices,
+                        'expanded' => false,
+                        'multiple' => false,
+                        'label'    => ''
+                    ))
+                    ->add('filterByState', 'submit', array(
+                        'label' => 'Filter'
+                    ))
+                    ->getForm();
+            } else {
+                if (isset($results['cities']) && count($results['cities']) > 0) {
+                    $cityChoices = array(null => 'Narrow by city');
+                    foreach($results['cities'] as $city) {
+                        $cityChoices[$city] = $city;
+                    }
+                    $filterForm
+                        ->setAction($this->generateUrl('b_conway_website_business_browse_name_with_organization_state', array(
+                            'organization' => $organization,
+                            'state' => $state,
+                        )))
+                        ->setMethod('post')
+                        ->add('cities', 'choice', array(
+                            'choices'  => $cityChoices,
+                            'expanded' => false,
+                            'multiple' => false,
+                            'label'    => ''
+                        ))
+                        ->add('filterByCity', 'submit', array(
+                            'label' => 'Filter'
+                        ))
+                        ;
+                }
+            }
+
+            $filterForm = $filterForm->getForm();
+
+            $filterForm->handleRequest($request);
+
+            if ($filterForm->isValid() && $filterForm->isSubmitted()) {
+                if ($filterForm->has('filterByState') && $filterForm->get('filterByState')->isClicked()) {
+                    return $this->redirect($this->generateUrl('b_conway_website_business_browse_name_with_organization_state', array(
+                        'organization' => $organization,
+                        'state'        => $filterForm->get('states')->getData(),
+                    )));
+                } elseif ($filterForm->has('filterByCity') && $filterForm->get('filterByCity')->isClicked()) {
+                    return $this->redirect($this->generateUrl('b_conway_website_business_browse_name_with_organization_state_city', array(
+                        'organization' => $organization,
+                        'state'        => $state,
+                        'city'        => $filterForm->get('cities')->getData(),
+                    )));
+                }
+            }
+        }
 
         // Render template
         return $this->render('BConwayWebsiteBundle:Business:browse.html.twig', array(
@@ -109,6 +183,8 @@ class BusinessController extends Controller
             'organization' => $organization,
             'state' => $state,
             'city' => $city,
+            'items'            => $results['businesses'],
+            'filterForm'       => isset($filterForm) ? $filterForm->createView() : null,
             'currentPage'      => $page,
             'totalPages'       => $results['totalPages'],
             'totalItems'       => $results['totalCount'],

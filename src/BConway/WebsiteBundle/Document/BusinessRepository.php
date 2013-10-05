@@ -58,7 +58,34 @@ class BusinessRepository extends DocumentRepository
                 ->getQuery()
                 ->toArray();
 
-            return $businesses;
+            if (is_null($state) || strlen($state) != 2) {
+                $results['states'] = $dm
+                    ->createQueryBuilder('BConwayWebsiteBundle:Business')
+                    ->addOr($businesses->expr()->field('organization')->equals($organization))
+                    ->addOr($businesses->expr()->field('name')->equals($organization))
+                    ->distinct('address.state')
+                    ->getQuery()
+                    ->toArray();
+
+                // Sort states case-insensitive
+                sort($results['states'], SORT_STRING | SORT_FLAG_CASE);
+
+            } else {
+                $results['cities'] = $dm
+                    ->createQueryBuilder('BConwayWebsiteBundle:Business')
+                    ->addOr($businesses->expr()->field('organization')->equals($organization))
+                    ->addOr($businesses->expr()->field('name')->equals($organization))
+                    ->field('address.state')->equals($state)
+                    ->distinct('address.city')
+                    ->getQuery()
+                    ->toArray();
+
+                // Sort states case-insensitive
+                sort($results['cities'], SORT_STRING | SORT_FLAG_CASE);
+
+            }
+
+            return $results;
         } else {
             // Get organization name from all businesses (distinct)
             $qbOrg = $dm->createQueryBuilder('BConwayWebsiteBundle:Business');
